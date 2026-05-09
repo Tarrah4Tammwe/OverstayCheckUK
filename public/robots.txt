@@ -1,0 +1,10 @@
+# robots.txt for OverstayCheck UK
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /*.json$
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+Crawl-delay: 1
+
+Sitemap: https://www.overstaycheck.co.uk/sitemap.xml
