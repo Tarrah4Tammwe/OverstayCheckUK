@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   title: 'UK Visa Overstay Calculator — Check Your Status | OverstayCheck',
   description: 'Overstayed your UK visa? Enter your expiry date and find out exactly where you stand — 14-day rule, re-entry bans, and what to do next. Plain English.',
   robots: 'index, follow',
+  alternates: {
+    canonical: 'https://www.overstaycheck.co.uk',
+  },
   openGraph: {
     title: 'UK Visa Overstay Calculator — Check Your Status | OverstayCheck',
     description: 'Overstayed your UK visa? Enter your expiry date and find out exactly where you stand — 14-day rule, re-entry bans, and what to do next. Plain English.',
