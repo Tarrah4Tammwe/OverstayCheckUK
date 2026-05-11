@@ -1,3 +1,16 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'UK Visa Overstay Calculator — Check Your Status | OverstayCheck',
+  description: 'Overstayed your UK visa? Enter your expiry date and find out exactly where you stand — 14-day rule, re-entry bans, and what to do next. Plain English.',
+  alternates: {
+    canonical: 'https://www.overstaycheck.co.uk',
+  },
+}
+
+export default function HomePage() {
+  // ... rest of existing code
+}
 import Script from "next/script"
 import { Scale } from "lucide-react"
 import { OverstayCalculator } from "@/components/overstay-calculator"
