@@ -11,10 +11,6 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   // ... rest of existing code
 }
-export const metadata = {
-  title: 'Privacy Policy | OverstayCheck UK',
-  description: 'Our privacy policy.',
-}
 
 export default function PrivacyPage() {
   return (
