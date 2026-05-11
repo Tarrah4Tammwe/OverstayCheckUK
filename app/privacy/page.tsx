@@ -12,7 +12,6 @@ export default function PrivacyPage() {
   // ... rest of existing code
 }
 
-export default function PrivacyPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
       <a href="/" className="text-blue-600 hover:underline mb-8 inline-block">
