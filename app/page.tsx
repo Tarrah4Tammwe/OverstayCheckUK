@@ -1,4 +1,9 @@
 import type { Metadata } from 'next'
+import Script from "next/script"
+import { Scale } from "lucide-react"
+import { OverstayCalculator } from "@/components/overstay-calculator"
+import { ThresholdsSection } from "@/components/thresholds-section"
+import { FAQSection, faqSchema } from "@/components/faq-section"
 
 export const metadata: Metadata = {
   title: 'UK Visa Overstay Calculator — Check Your Status | OverstayCheck',
@@ -9,13 +14,13 @@ export const metadata: Metadata = {
 }
 
 export default function HomePage() {
-  // ... rest of existing code
-}
-import Script from "next/script"
-import { Scale } from "lucide-react"
-import { OverstayCalculator } from "@/components/overstay-calculator"
-import { ThresholdsSection } from "@/components/thresholds-section"
-import { FAQSection, faqSchema } from "@/components/faq-section"
+  return (
+    <>
+      <Script
+        id="faq-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
 
       <div className="min-h-screen flex flex-col">
         {/* Header */}
@@ -82,4 +87,3 @@ import { FAQSection, faqSchema } from "@/components/faq-section"
     </>
   )
 }
-// Force rebuild
