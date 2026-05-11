@@ -17,15 +17,6 @@ import { OverstayCalculator } from "@/components/overstay-calculator"
 import { ThresholdsSection } from "@/components/thresholds-section"
 import { FAQSection, faqSchema } from "@/components/faq-section"
 
-export default function HomePage() {
-  return (
-    <>
-      <Script
-        id="faq-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-
       <div className="min-h-screen flex flex-col">
         {/* Header */}
         <header className="border-b bg-card">
