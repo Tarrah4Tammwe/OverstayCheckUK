@@ -7,10 +7,6 @@ export const metadata: Metadata = {
     canonical: 'https://www.overstaycheck.co.uk/contact',
   },
 }
-
-export default function ContactPage() {
-  // ... rest of existing code
-}
 export const metadata = {
   title: 'Contact | OverstayCheck UK',
   description: 'Contact us.',
