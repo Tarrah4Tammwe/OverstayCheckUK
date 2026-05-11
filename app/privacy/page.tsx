@@ -1,3 +1,16 @@
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Privacy Policy | OverstayCheck UK',
+  description: 'Our privacy policy.',
+  alternates: {
+    canonical: 'https://www.overstaycheck.co.uk/privacy',
+  },
+}
+
+export default function PrivacyPage() {
+  // ... rest of existing code
+}
 export const metadata = {
   title: 'Privacy Policy | OverstayCheck UK',
   description: 'Our privacy policy.',
