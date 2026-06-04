@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import AdUnit from '@/components/AdUnit'
 import Script from "next/script"
 import { Scale } from "lucide-react"
 import { OverstayCalculator } from "@/components/overstay-calculator"
@@ -126,6 +127,10 @@ export default function HomePage() {
               </div>
             </div>
           </section>
+
+          <div className="container mx-auto px-4 py-6">
+            <AdUnit slot="2572172105" format="horizontal" />
+          </div>
 
           {/* Disclaimer */}
           <section className="py-10 border-t">
