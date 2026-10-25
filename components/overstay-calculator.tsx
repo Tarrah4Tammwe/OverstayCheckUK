@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { AlertTriangle, ArrowRight, CalendarDays, CheckCircle2, Clock, XCircle } from "lucide-react"
 
-type Tier = "valid" | "window" | "overstay" | "serious" | "ban"
+type Tier = "valid" | "window" | "grace" | "over"
 
 interface Result {
   daysOverstayed: number
@@ -39,6 +39,8 @@ const advice = {
 }
 const regulated = { href: "https://finder.oisc.gov.uk/", label: "Find a regulated adviser (OISC)", external: true }
 
+// Days are counted from the day after permission ends. The 14-day and 30-day lines come from the
+// Immigration Rules (late-application disregard and the no-ban voluntary departure rule).
 function calculate(expiry: Date): Result {
   const diff = daysBetween(expiry, new Date())
 
@@ -47,13 +49,13 @@ function calculate(expiry: Date): Result {
     return {
       daysOverstayed: 0,
       tier: "valid",
-      label: "Visa still valid",
-      headline: `Your visa is valid for ${n} more day${n === 1 ? "" : "s"}.`,
+      label: "Permission still valid",
+      headline: `Your permission lasts ${n} more day${n === 1 ? "" : "s"}.`,
       detail:
-        "You are in good standing. If you need to stay longer, apply to extend before your visa expires: a pending in-time application can protect you under Section 3C leave.",
+        "You are not an overstayer. If you need to stay longer, apply to extend before your permission ends: an in-time application usually continues your permission under Section 3C while it is decided.",
       next: null,
       progress: 0,
-      steps: [{ href: "/#faq", label: "What is Section 3C leave?" }, advice],
+      steps: [{ href: "/section-3c-leave", label: "How Section 3C leave works" }, advice],
     }
   }
 
@@ -62,12 +64,16 @@ function calculate(expiry: Date): Result {
       daysOverstayed: 0,
       tier: "window",
       label: "Expires today",
-      headline: "Your visa expires today.",
+      headline: "Your permission ends today.",
       detail:
-        "Today is your last day. If you cannot leave and have not applied to extend, you must have a genuine reason beyond your control to avoid consequences.",
-      next: { days: 14, label: "the 14-day window closing" },
+        "Tomorrow you will be an overstayer unless you have applied to extend in time or you leave. If you have not applied, get advice today.",
+      next: { days: 14, label: "the end of the 14-day window" },
       progress: 0,
-      steps: [{ href: "/#faq", label: "What is the 14-day rule?" }, advice],
+      steps: [
+        { href: "/section-3c-leave", label: "How Section 3C leave works" },
+        { href: "/14-day-rule", label: "The 14-day rule" },
+        advice,
+      ],
     }
   }
 
@@ -75,63 +81,63 @@ function calculate(expiry: Date): Result {
     return {
       daysOverstayed: diff,
       tier: "window",
-      label: "14-day window",
-      headline: `${diff} day${diff === 1 ? "" : "s"} overstayed, still inside the 14-day window.`,
+      label: "Within 14 days",
+      headline: `${diff} day${diff === 1 ? "" : "s"} overstayed, within the 14-day window.`,
       detail:
-        "If you have a genuine reason beyond your control (medical emergency, bereavement, hospitalisation), you can apply for a new visa now and the Home Office may disregard the overstay. This is the last safe exit.",
-      next: { days: 14 - diff, label: "the 14-day window closing" },
-      progress: (diff / 90) * 100,
-      steps: [{ href: "/#faq", label: "What is the 14-day rule?" }, advice, regulated],
+        "If you apply for new permission now and the Home Office accepts you had a good reason beyond your control (for example hospitalisation or bereavement), the overstay can be disregarded. Forgetting is not a good reason. Alternatively, leaving voluntarily at your own expense within 30 days means no re-entry ban.",
+      next: { days: 15 - diff, label: "the 14-day window closing" },
+      progress: (diff / 30) * 100,
+      steps: [
+        { href: "/14-day-rule", label: "The 14-day rule" },
+        { href: "/uk-re-entry-ban", label: "The 30-day no-ban rule" },
+        advice,
+        regulated,
+      ],
     }
   }
 
-  if (diff < 30) {
+  if (diff <= 30) {
     return {
       daysOverstayed: diff,
-      tier: "overstay",
-      label: "Overstay confirmed",
-      headline: `${diff} days overstayed. The 14-day protection has passed.`,
+      tier: "grace",
+      label: "Overstay of 30 days or less",
+      headline: `${diff} days overstayed. The 14-day window has closed.`,
       detail:
-        "The overstay is now on your record. Leaving voluntarily is still viewed more favourably than being removed, and there is no automatic ban yet, but future applications will be harder.",
-      next: { days: 30 - diff, label: "the 30-day threshold" },
-      progress: (diff / 90) * 100,
-      steps: [{ href: "/#faq", label: "How long is the re-entry ban?" }, advice, regulated],
-    }
-  }
-
-  if (diff < 90) {
-    return {
-      daysOverstayed: diff,
-      tier: "serious",
-      label: "Serious overstay",
-      headline: `${diff} days overstayed. Past the voluntary departure point.`,
-      detail:
-        "Consequences increase significantly. Future UK and international visa applications will be seriously affected. Speak to an immigration solicitor or regulated adviser before you act.",
-      next: { days: 90 - diff, label: "the 90-day ban trigger" },
-      progress: (diff / 90) * 100,
-      steps: [advice, regulated, { href: "/#faq", label: "How long is the re-entry ban?" }],
+        "If you leave the UK voluntarily, at your own expense, within 30 days of your permission ending, no re-entry ban applies. After that, a ban on applications usually applies. The overstay is still recorded and may need to be declared on future applications.",
+      next: { days: 31 - diff, label: "the 30-day line" },
+      progress: (diff / 30) * 100,
+      steps: [
+        { href: "/uk-re-entry-ban", label: "UK re-entry bans explained" },
+        { href: "/overstayed-uk-visa-what-to-do", label: "What to do if you have overstayed" },
+        advice,
+        regulated,
+      ],
     }
   }
 
   return {
     daysOverstayed: diff,
-    tier: "ban",
-    label: "Re-entry ban range",
-    headline: `${diff} days overstayed.`,
+    tier: "over",
+    label: "Over 30 days",
+    headline: `${diff} days overstayed. A re-entry ban is likely when you leave.`,
     detail:
-      "A re-entry ban is likely to apply when you leave. How long depends on how you leave: voluntarily at your own expense, removed at public expense, or if deception was involved. Seek legal advice before deciding what to do.",
+      "Leaving voluntarily at your own expense after more than 30 days normally leads to a 12-month ban on applications. Leaving at the Home Office's expense leads to a 2-year or 5-year ban, and removal, deportation or deception to 10 years. Get regulated advice before you decide what to do.",
     next: null,
     progress: 100,
-    steps: [advice, regulated, { href: "/#faq", label: "How long is the re-entry ban?" }],
+    steps: [
+      { href: "/uk-re-entry-ban", label: "UK re-entry bans explained" },
+      { href: "/overstayed-uk-visa-what-to-do", label: "What to do if you have overstayed" },
+      advice,
+      regulated,
+    ],
   }
 }
 
 const styles: Record<Tier, { card: string; badge: string; bar: string; Icon: typeof CheckCircle2; iconColor: string }> = {
   valid: { card: "border-safe/40 bg-safe-soft", badge: "bg-safe text-white", bar: "bg-safe", Icon: CheckCircle2, iconColor: "text-safe" },
   window: { card: "border-warn/50 bg-warn-soft", badge: "bg-warn-ink text-white", bar: "bg-warn", Icon: Clock, iconColor: "text-warn-ink" },
-  overstay: { card: "border-warn/60 bg-warn-soft", badge: "bg-warn-ink text-white", bar: "bg-warn", Icon: AlertTriangle, iconColor: "text-warn-ink" },
-  serious: { card: "border-danger/40 bg-danger-soft", badge: "bg-danger text-white", bar: "bg-danger", Icon: XCircle, iconColor: "text-danger" },
-  ban: { card: "border-danger/50 bg-danger-soft", badge: "bg-danger text-white", bar: "bg-danger", Icon: XCircle, iconColor: "text-danger" },
+  grace: { card: "border-warn/60 bg-warn-soft", badge: "bg-warn-ink text-white", bar: "bg-warn", Icon: AlertTriangle, iconColor: "text-warn-ink" },
+  over: { card: "border-danger/40 bg-danger-soft", badge: "bg-danger text-white", bar: "bg-danger", Icon: XCircle, iconColor: "text-danger" },
 }
 
 export function OverstayCalculator() {
@@ -217,7 +223,7 @@ export function OverstayCalculator() {
                   <span className="font-medium text-foreground">
                     {result.next
                       ? `${result.next.days} day${result.next.days === 1 ? "" : "s"} until ${result.next.label}`
-                      : "Past the 90-day mark"}
+                      : "Past the 30-day line"}
                   </span>
                   <span className="shrink-0 tabular-nums text-muted-foreground">{result.daysOverstayed} days overstayed</span>
                 </div>
@@ -229,9 +235,8 @@ export function OverstayCalculator() {
                 </div>
                 <div className="relative mt-2 h-4 text-xs text-muted-foreground">
                   <span className="absolute left-0">Day 1</span>
-                  <span className="absolute -translate-x-1/2" style={{ left: "15.5%" }}>14</span>
-                  <span className="absolute -translate-x-1/2" style={{ left: "33.3%" }}>30</span>
-                  <span className="absolute right-0">90+</span>
+                  <span className="absolute -translate-x-1/2" style={{ left: "46.7%" }}>14</span>
+                  <span className="absolute right-0">30</span>
                 </div>
               </div>
             )}

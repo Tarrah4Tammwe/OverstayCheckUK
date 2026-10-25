@@ -5,6 +5,7 @@ import Script from 'next/script'
 import './globals.css'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
+import { ConsentScripts } from '@/components/consent-scripts'
 import { site } from '@/lib/site'
 
 const dmSans = DM_Sans({ subsets: ['latin'], variable: '--font-dm-sans', display: 'swap' })
@@ -31,6 +32,7 @@ export const metadata: Metadata = {
   twitter: { card: 'summary', title, description },
   icons: { icon: '/icon.svg', apple: '/apple-icon.png' },
   manifest: '/manifest.json',
+  other: { 'google-adsense-account': 'ca-pub-8935274984783226' },
 }
 
 export const viewport: Viewport = {
@@ -46,6 +48,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <SiteHeader />
         {children}
         <SiteFooter />
+        <ConsentScripts />
         <Analytics />
         <Script
           async

@@ -26,8 +26,8 @@ export default function AboutPage() {
         <li>You enter the end date of your permission to stay.</li>
         <li>The calculator counts the whole days between that date and today, in your local time zone.</li>
         <li>
-          It compares the result with the points where consequences change: the 14-day window, 30 days and 90 days, and
-          explains what each means.
+          It compares the result with the points where the rules change: the 14-day window for late applications and the
+          30-day line for voluntary departure, and explains what each means.
         </li>
       </ol>
       <p>The calculation runs entirely in your browser. The date you enter is not sent to us and is not stored.</p>
@@ -42,7 +42,7 @@ export default function AboutPage() {
 
       <h2>What it cannot tell you</h2>
       <p>
-        The calculator applies standard thresholds. Real cases often involve things it cannot see: a pending
+        The calculator applies standard thresholds and summarises the Immigration Rules, which are updated regularly and were recently reorganised into Part Suitability. Real cases often involve things it cannot see: a pending
         application and Section 3C leave, an appeal, a human rights claim, family ties in the UK, or earlier
         immigration history. Those can change the outcome completely.
       </p>

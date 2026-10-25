@@ -1,16 +1,19 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Script from 'next/script'
-import { EyeOff, Landmark, MessageSquareText } from 'lucide-react'
+import { ArrowRight, BookOpen, EyeOff, Landmark, MessageSquareText } from 'lucide-react'
 import AdUnit from '@/components/AdUnit'
 import { OverstayCalculator } from '@/components/overstay-calculator'
 import { ThresholdsSection } from '@/components/thresholds-section'
 import { FAQSection, faqSchema } from '@/components/faq-section'
 import { Callout } from '@/components/callout'
-import { site } from '@/lib/site'
+import { guides, site } from '@/lib/site'
 
 export const metadata: Metadata = {
-  alternates: { canonical: site.domain },
+  alternates: {
+    canonical: site.domain,
+    languages: { 'en-GB': 'https://www.overstaycheck.co.uk', 'en-US': 'https://overstaycheck.com', 'x-default': 'https://overstaycheck.com' },
+  },
 }
 
 const trust = [
@@ -84,6 +87,33 @@ export default function HomePage() {
           </div>
         </section>
 
+        <section id="guides" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-16 md:py-20" aria-labelledby="guides-h">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 id="guides-h" className="flex items-center justify-center gap-3 text-3xl font-semibold text-foreground md:text-4xl">
+              <BookOpen className="h-7 w-7 text-primary" aria-hidden /> Guides
+            </h2>
+            <p className="mt-3 text-muted-foreground">Plain-English explanations of the rules, your options and what happens next.</p>
+          </div>
+          <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {guides.map((g) => (
+              <li key={g.slug}>
+                <Link
+                  href={`/${g.slug}`}
+                  className="group flex h-full flex-col rounded-2xl border border-border bg-card p-5 transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md"
+                >
+                  <span className="font-sans text-lg font-semibold text-foreground group-hover:text-primary">{g.title}</span>
+                  <span className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{g.blurb}</span>
+                  <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
+                    Read guide <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden />
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <AdUnit slot="2572172105" />
+
         <FAQSection />
 
         <section className="border-y border-border bg-card py-16 md:py-20" aria-labelledby="about-overstays">
@@ -102,11 +132,11 @@ export default function HomePage() {
                 <h3>There Is No Grace Period in the UK</h3>
                 <p>
                   Unlike some other countries, the UK does not automatically give you extra days after
-                  your visa expires. Day one after your visa end date is day one of overstaying. The only
-                  exception is the 14-day rule, which applies in very specific circumstances — if you
-                  overstay for 14 days or fewer and can demonstrate a genuine reason beyond your control
-                  such as a medical emergency, the Home Office may disregard the overstay entirely. This
-                  is a narrow exception, not a standard allowance.
+                  your visa expires. Day one after your visa end date is day one of overstaying. Two narrow
+            rules can help. If you apply for new permission within 14 days of your old permission ending and
+            can show a good reason beyond your control, such as a medical emergency, the Home Office may
+            disregard the overstay. And if you leave voluntarily, at your own expense, within 30 days, no
+            re-entry ban applies. Neither is a standard allowance.
                 </p>
                 <p>
                   If you applied to extend your visa before it expired, you may be protected by Section 3C
@@ -116,7 +146,7 @@ export default function HomePage() {
 
                 <h3>The Consequences of Overstaying</h3>
                 <p>
-                  Overstaying a UK visa is a criminal offence under Section 24 of the Immigration Act 1971.
+                  Knowingly overstaying can be a criminal offence under Section 24 of the Immigration Act 1971.
                   In practice, prosecutions for straightforward overstaying are uncommon — but the overstay
                   is permanently recorded. Future UK visa applications, and visa applications for many other
                   countries including the US, Canada, Australia, and Schengen nations, require you to
@@ -124,10 +154,10 @@ export default function HomePage() {
                   negative factor by immigration authorities worldwide.
                 </p>
                 <p>
-                  When you eventually leave the UK, a re-entry ban applies. The length of the ban depends on
-                  how you leave and how long you overstayed. Leaving voluntarily at your own expense results
-                  in a shorter ban. Being removed at public expense results in a ban of up to 5 years. If
-                  deception was involved in your original visa application, the ban can reach 10 years.
+                  When you leave the UK, whether a re-entry ban applies depends on how long you overstayed and how you
+            leave. Leaving voluntarily at your own expense within 30 days means no ban. After that, a 12-month
+            ban on applications usually applies. Leaving at the Home Office&apos;s expense can mean 2 or 5 years,
+            and removal, deportation or deception can mean 10 years.
                 </p>
 
                 <h3>What This Calculator Does</h3>
@@ -135,8 +165,8 @@ export default function HomePage() {
                   This tool takes your UK visa expiry date and calculates exactly where you stand today.
                   It tells you whether the 14-day exception window is still open, how long you have
                   overstayed, what re-entry consequences apply, and what your immediate options are. The
-                  calculator is based on publicly available Home Office guidance and is updated to reflect
-                  current UK immigration rules.
+            calculator is based on the Immigration Rules and published Home Office guidance. Rules change, so
+            always check the current wording.
                 </p>
                 <p>
                   This is a free informational tool — no data is stored, no registration required. If your
@@ -151,10 +181,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <div className="mx-auto mt-14 max-w-4xl px-4">
-          <p className="mb-1 text-center text-[11px] uppercase tracking-widest text-muted-foreground">Advertisement</p>
-          <AdUnit slot="2572172105" format="horizontal" />
-        </div>
+        <AdUnit slot="2572172105" />
 
         <section className="mx-auto mt-16 max-w-3xl px-4" aria-label="Disclaimer">
           <Callout tone="warning" title="This is not legal advice">
