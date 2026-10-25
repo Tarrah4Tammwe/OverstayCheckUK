@@ -1,9 +1,4 @@
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
+import { Plus } from "lucide-react"
 
 const faqs = [
   {
@@ -50,33 +45,21 @@ const faqs = [
 
 export function FAQSection() {
   return (
-    <section className="py-12 md:py-16">
-      <div className="text-center mb-10">
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground text-balance">
-          Frequently Asked Questions
-        </h2>
-        <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
-          Straight answers to the questions people actually ask.
-        </p>
-      </div>
-
-      <div className="max-w-3xl mx-auto">
-        <Accordion type="single" collapsible className="w-full space-y-3">
-          {faqs.map((faq, index) => (
-            <AccordionItem
-              key={index}
-              value={`item-${index}`}
-              className="border rounded-lg px-4 bg-card"
-            >
-              <AccordionTrigger className="text-left text-base font-medium hover:no-underline py-4">
-                {faq.question}
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground leading-relaxed pb-4">
-                {faq.answer}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+    <section id="faq" className="mx-auto max-w-3xl scroll-mt-20 px-4 py-16 md:py-20" aria-labelledby="faq-h">
+      <h2 id="faq-h" className="text-center text-3xl font-semibold text-foreground md:text-4xl">
+        Frequently asked questions
+      </h2>
+      <p className="mt-3 text-center text-muted-foreground">Straight answers to the questions people actually ask.</p>
+      <div className="mt-8 divide-y divide-border overflow-hidden rounded-2xl border border-border bg-card">
+        {faqs.map((faq) => (
+          <details key={faq.question} className="group p-5 open:bg-accent/30">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-foreground [&::-webkit-details-marker]:hidden">
+              {faq.question}
+              <Plus className="h-5 w-5 shrink-0 text-primary transition-transform group-open:rotate-45" aria-hidden />
+            </summary>
+            <p className="mt-3 leading-relaxed text-muted-foreground">{faq.answer}</p>
+          </details>
+        ))}
       </div>
     </section>
   )
