@@ -1,15 +1,21 @@
 {
-  "name": "Overstay Check UK",
-  "short_name": "Overstay Check",
-  "description": "Check if you're overstaying in the UK",
+  "name": "OverstayCheck UK",
+  "short_name": "OverstayCheck",
+  "description": "Free UK visa overstay calculator. Check where you stand and what happens next.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#fbfaf7",
+  "theme_color": "#2b3f86",
   "icons": [
     {
-      "src": "/icon.png",
+      "src": "/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
-  CŸJ
+  ]
+}

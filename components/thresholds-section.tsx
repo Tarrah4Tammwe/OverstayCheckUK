@@ -1,75 +1,49 @@
-import { Clock, AlertTriangle, Ban, Plane } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
-
 const thresholds = [
   {
-    icon: Clock,
-    title: "14 Days",
-    color: "text-amber-600",
-    bgColor: "bg-amber-50",
-    borderColor: "border-amber-200",
-    description:
-      "The only window where an overstay might be disregarded. If you have a genuine reason beyond your control — medical emergency, bereavement, hospitalisation — you can apply for a new visa within 14 days. Simply forgetting is not valid.",
+    title: "14 days",
+    text: "If you apply for new permission within 14 days of your old permission expiring and the Home Office accepts a good reason beyond your control, such as hospitalisation or bereavement, the overstay can be disregarded. Forgetting is not a good reason.",
+    bar: "bg-warn",
+    ink: "text-warn-ink",
   },
   {
-    icon: AlertTriangle,
-    title: "30 Days",
-    color: "text-orange-600",
-    bgColor: "bg-orange-50",
-    borderColor: "border-orange-200",
-    description:
-      "The point where leaving voluntarily is no longer viewed as favourably. Consequences increase and future visa applications worldwide become significantly harder. The overstay is now firmly on your immigration record.",
+    title: "30 days",
+    text: "If you leave the UK voluntarily, at your own expense, within 30 days of your permission ending, no re-entry ban applies. This is the last point at which leaving carries no automatic ban.",
+    bar: "bg-warn",
+    ink: "text-warn-ink",
   },
   {
-    icon: Ban,
-    title: "90 Days",
-    color: "text-red-600",
-    bgColor: "bg-red-50",
-    borderColor: "border-red-200",
-    description:
-      "The automatic re-entry ban trigger. When you leave the UK after 90+ days of overstay, a re-entry ban activates. The length depends on how you leave — voluntary departure means a shorter ban than removal.",
+    title: "Over 30 days",
+    text: "Leaving voluntarily at your own expense after more than 30 days leads to a 12-month ban on applications. Leaving at the Home Office's expense leads to a 2-year or 5-year ban depending on timing.",
+    bar: "bg-danger",
+    ink: "text-danger-ink",
   },
   {
-    icon: Plane,
-    title: "Removed / Deported",
-    color: "text-red-700",
-    bgColor: "bg-red-100",
-    borderColor: "border-red-300",
-    description:
-      "Leaving at public expense or being deported results in the longest bans — up to 5 years for removal, or up to 10 years if deception was involved in any part of your visa application or stay.",
+    title: "Removal or deception",
+    text: "Being removed or deported, or using deception in an application, leads to the longest refusal period: 10 years.",
+    bar: "bg-danger",
+    ink: "text-danger-ink",
   },
 ]
 
 export function ThresholdsSection() {
   return (
-    <section className="py-12 md:py-16">
-      <div className="text-center mb-10">
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground text-balance">
-          The Key Thresholds
-        </h2>
-        <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
-          UK immigration law marks specific points where consequences escalate. Know where you stand.
+    <section id="thresholds" className="mx-auto max-w-6xl scroll-mt-20 px-4 py-16 md:py-20" aria-labelledby="thresholds-h">
+      <div className="mx-auto max-w-2xl text-center">
+        <h2 id="thresholds-h" className="text-3xl font-semibold text-foreground md:text-4xl">The key thresholds</h2>
+        <p className="mt-3 text-muted-foreground">
+          UK immigration rules mark specific points where the consequences of an overstay escalate. These are
+          summaries: always check the current rules or take advice.
         </p>
       </div>
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {thresholds.map((threshold) => (
-          <Card
-            key={threshold.title}
-            className={`border-2 ${threshold.borderColor} ${threshold.bgColor} transition-shadow hover:shadow-md`}
-          >
-            <CardContent className="p-5">
-              <div className="flex items-center gap-3 mb-3">
-                <threshold.icon className={`h-6 w-6 ${threshold.color}`} />
-                <h3 className={`text-lg font-bold ${threshold.color}`}>
-                  {threshold.title}
-                </h3>
-              </div>
-              <p className="text-sm text-foreground/80 leading-relaxed">
-                {threshold.description}
-              </p>
-            </CardContent>
-          </Card>
+      <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        {thresholds.map((t) => (
+          <article key={t.title} className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
+            <div className={`h-1.5 ${t.bar}`} />
+            <div className="p-6">
+              <h3 className={`font-serif text-2xl font-semibold ${t.ink}`}>{t.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{t.text}</p>
+            </div>
+          </article>
         ))}
       </div>
     </section>
